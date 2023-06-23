@@ -12,18 +12,20 @@ import {
 // const path = require("path")
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const { contract } = useContract(
     "0x553BC16Eb052b2297c64bef79423008D280b9768"
   );
-  const { data, isLoading } = useContractRead(contract, "latestResponse");
+  const { data } = useContractRead(contract, "latestResponse");
   const { mutateAsync: executeRequest, isLoading2 } = useContractWrite(
     contract,
     "executeRequest"
   );
   // const temp = "";
   const [tempSource, setTempSource] = useState({});
-  const call = async () => {
+  const handleCall = async () => {
     try {
+      setIsLoading(true);
       const data = await executeRequest({
         args: [
           tempSource,
@@ -33,82 +35,52 @@ export default function Home() {
           300000,
         ],
       });
-      console.info("contract call successs", data);
+      console.info("contract handleCall successs", data);
     } catch (err) {
-      console.error("contract call failure", err);
+      console.error("contract handleCall failure", err);
+    } finally {
+      setIsLoading(false);
     }
     // console.log(contract);
   };
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
 
-  const handleFileChange = async (event) => {
-    const file = await event.target.files[0];
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
     setSelectedFile(file);
 
     const reader = new FileReader();
     reader.onload = (e) => {
       const fileContent = e.target.result;
       setTempSource(fileContent);
-      // executeContract(fileContent); // Call the executeContract function with the file content
+      // executeContract(fileContent); // handleCall the executeContract function with the file content
     };
     reader.readAsText(file);
     // console.log(tempSource);
   };
 
   useEffect(() => {
-    console.log(typeof(tempSource)); // Print the updated tempSource value
+    console.log(typeof tempSource); // Print the updated tempSource value
   }, [tempSource]);
 
-
   return (
-    <div className="container">
-      <main className="main">
-        <h1 className="title">
-          Welcome to <a href="https://thirdweb.com/">thirdweb</a>!
-        </h1>
-
-        <p className="description">
-          Get started by configuring your desired network in{" "}
-          <code className="code">src/index.js</code>, then modify the{" "}
-          <code className="code">src/App.js</code> file!
-        </p>
-
-        <div className="connect">
-          <ConnectWallet
-            dropdownPosition={{ side: "bottom", align: "center" }}
-          />
-        </div>
-        <div className="file-input">
-          <input type="file" onChange={handleFileChange} />
-        </div>
-        <div className="submit-button">
-          <button onClick={call}>Submit</button>
-        </div>
-        <div className="grid">
-          <a href="https://portal.thirdweb.com/" className="card">
-            <h2>Portal &rarr;</h2>
-            <p>
-              Guides, references and resources that will help you build with
-              thirdweb.
-            </p>
-          </a>
-
-          <a href="https://thirdweb.com/dashboard" className="card">
-            <h2>Dashboard &rarr;</h2>
-            <p>
-              Deploy, configure and manage your smart contracts from the
-              dashboard.
-            </p>
-          </a>
-
-          <a href="https://portal.thirdweb.com/templates" className="card">
-            <h2>Templates &rarr;</h2>
-            <p>
-              Discover and clone template projects showcasing thirdweb features.
-            </p>
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="container">
+      <div className="connect">
+        <ConnectWallet
+          dropdownPosition={{ side: "bottom", align: "center" }}
+          className="connect_button"
+        />
+      </div>
+      <section className="file-input">
+        <input type="file" onChange={handleFileChange}/>
+        <button
+          disabled={isLoading}
+          className="file_input_button"
+          onClick={handleCall}
+        >
+          Submit
+        </button>
+      </section>
+    </main>
   );
 }

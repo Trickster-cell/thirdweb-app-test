@@ -1,5 +1,12 @@
 .container {
   padding: 0 2rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 2em 3em;
+  background-color: #252d36;
 }
 
 .main {
@@ -115,4 +122,37 @@
 }
 .logo img {
   filter: invert(1);
+}
+
+.file-input input{
+  font-size: 1.5rem;
+}
+.file_input_button{
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem 1.6rem;
+  font-weight: 600;
+  background-color: rgb(27, 115, 237);
+  outline: none;
+  border: none;
+  color: white;
+  border-radius: 0.2rem;
+}
+.file_input_button:hover{
+  filter: brightness(80%);
+}
+.file_input_button:disabled{
+  cursor: not-allowed;
+  filter: opacity(0.5);
+}
+.file-input{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1b2129;
+  padding: 1.1rem 1.4rem;
+  border-radius: 0.2em;
+}
+.connect_button{
+  font-size: 1.4rem!important;
 }
