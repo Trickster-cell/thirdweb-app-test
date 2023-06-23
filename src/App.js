@@ -60,7 +60,7 @@ export default function Home() {
     // console.log(tempSource);
   };
   // Rest of the code...
-  const [tempArr, setTempArr] = useState([]);
+  const [tempArr, setTempArr] = useState([""]);
   const handleInputChange = (index, event) => {
     const newValue = event.target.value;
     const newArr = [...tempArr];
@@ -106,10 +106,8 @@ export default function Home() {
             onChange={(e) => handleInputChange(index, e)}
             placeholder="Enter input"
           />
-          // <br></br>
         ))}
-        <button onClick={handleAddInput}>Add More</button>
-        <br></br>
+        <button className="input-section-button" onClick={handleAddInput}>Add More</button>
       </section>
     </main>
   );

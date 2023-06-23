@@ -127,10 +127,10 @@
 .file-input input{
   font-size: 1.5rem;
 }
-.file_input_button{
+.file_input_button,.input-section-button{
   font-size: 1.2rem;
   cursor: pointer;
-  padding: 0.5rem 1.6rem;
+  padding: 0.8rem 1.6rem;
   font-weight: 600;
   background-color: rgb(27, 115, 237);
   outline: none;
@@ -138,7 +138,7 @@
   color: white;
   border-radius: 0.2rem;
 }
-.file_input_button:hover{
+.file_input_button:hover,.input-section-button:hover{
   filter: brightness(80%);
 }
 .file_input_button:disabled{
@@ -155,4 +155,15 @@
 }
 .connect_button{
   font-size: 1.4rem!important;
+}
+.input-section{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+  gap:1.4em;
+}
+.input-section input{
+  font-size: 1.2rem;
+  padding: 0.5em 1.3em;
 }
