@@ -8,21 +8,24 @@ import {
   useContractWrite,
   useContractRead,
 } from "@thirdweb-dev/react";
-// const contract = await sdk.getContract("0x553BC16Eb052b2297c64bef79423008D280b9768");
-// const path = require("path")
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const { contract } = useContract(
     "0x553BC16Eb052b2297c64bef79423008D280b9768"
   );
-  const { data } = useContractRead(contract, "latestResponse");
+
   const { mutateAsync: executeRequest, isLoading2 } = useContractWrite(
     contract,
     "executeRequest"
   );
-  // const temp = "";
+
+  const { data: latestResponse, isLoading: isLatestResponseLoading } =
+    useContractRead(contract, "latestResponse");
+
   const [tempSource, setTempSource] = useState({});
+  const [selectedFile, setSelectedFile] = useState("");
+
   const handleCall = async () => {
     try {
       setIsLoading(true);
@@ -30,20 +33,18 @@ export default function Home() {
         args: [
           tempSource,
           [],
-          ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+          tempArr,
           1843,
           300000,
         ],
       });
-      console.info("contract handleCall successs", data);
+      console.info("contract handleCall success", data);
     } catch (err) {
       console.error("contract handleCall failure", err);
     } finally {
       setIsLoading(false);
     }
-    // console.log(contract);
   };
-  const [selectedFile, setSelectedFile] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -58,10 +59,18 @@ export default function Home() {
     reader.readAsText(file);
     // console.log(tempSource);
   };
+  // Rest of the code...
+  const [tempArr, setTempArr] = useState([]);
+  const handleInputChange = (index, event) => {
+    const newValue = event.target.value;
+    const newArr = [...tempArr];
+    newArr[index] = newValue;
+    setTempArr(newArr);
+  };
 
-  useEffect(() => {
-    console.log(typeof tempSource); // Print the updated tempSource value
-  }, [tempSource]);
+  const handleAddInput = () => {
+    setTempArr([...tempArr, ""]);
+  };
 
   return (
     <main className="container">
@@ -72,7 +81,7 @@ export default function Home() {
         />
       </div>
       <section className="file-input">
-        <input type="file" onChange={handleFileChange}/>
+        <input type="file" onChange={handleFileChange} />
         <button
           disabled={isLoading}
           className="file_input_button"
@@ -80,6 +89,27 @@ export default function Home() {
         >
           Submit
         </button>
+      </section>
+
+      {isLatestResponseLoading ? (
+        <p>Loading latest response...</p>
+      ) : (
+        <p>Latest Response: {parseInt(latestResponse, 16)}</p>
+      )}
+
+      <section className="input-section">
+        {tempArr.map((value, index) => (
+          <input
+            key={index}
+            type="text"
+            value={value}
+            onChange={(e) => handleInputChange(index, e)}
+            placeholder="Enter input"
+          />
+          // <br></br>
+        ))}
+        <button onClick={handleAddInput}>Add More</button>
+        <br></br>
       </section>
     </main>
   );
