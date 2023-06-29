@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Veriff } from "@veriff/js-sdk";
-import { createVeriffFrame } from "@veriff/incontext-sdk";
+import { createVeriffFrame, MESSAGES } from "@veriff/incontext-sdk";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
@@ -50,8 +50,15 @@ export const VeriffPage = () => {
       onSession: function (err, response) {
         console.log(response);
         if (response.status === "success") {
-          createVeriffFrame({ url: response.verification.url });
-          setSessionId(response.verification.id);
+          createVeriffFrame({
+            url: response.verification.url,
+            onEvent: (msg) => {
+              console.log(msg);
+              if (msg === MESSAGES.FINISHED) {
+                setSessionId(response.verification.id);
+              }
+            },
+          });
         }
       },
     });
