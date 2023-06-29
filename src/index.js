@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import "./styles/globals.css";
+import { VeriffPage } from "./VeriffPage";
 
 // import { ChainId } from "@thirdweb-dev/sdk";
 // This is the chain your dApp will work on.
@@ -15,7 +16,8 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <ThirdwebProvider activeChain={activeChain}>
-      <App />
+      {/* <App /> */}
+      <VeriffPage />
     </ThirdwebProvider>
   </React.StrictMode>
 );
