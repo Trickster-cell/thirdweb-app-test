@@ -1,8 +1,8 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
 import "./styles/Home.css";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
-import { useState } from "react";
 import { useEffect } from "react";
+import { useState } from "react";
+import { ConnectWallet } from "@thirdweb-dev/react";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import {
   useContract,
   useContractWrite,
@@ -12,7 +12,7 @@ import {
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const { contract } = useContract(
-    "0x553BC16Eb052b2297c64bef79423008D280b9768"
+    "0x4a54CC5f35A7b919eEa94419699EB8cB3C4aD6A7"
   );
 
   const { mutateAsync: executeRequest, isLoading2 } = useContractWrite(
